@@ -1,0 +1,11 @@
+{
+  "name": "mysociety-qr-code-system",
+  "version": "1.0.0",
+  "description": "QR Code Vehicle Management System",
+  "main": "index.html",
+  "scripts": {
+    "build": "echo 'No build script defined'"
+  },
+  "author": "Talal Hassan",
+  "license": "ISC"
+}
