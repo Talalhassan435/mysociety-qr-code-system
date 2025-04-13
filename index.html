@@ -1,0 +1,21 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vehicle QR Generator</title>
+</head>
+<body>
+  <h1>QR Code Generator</h1>
+  <form id="qrForm">
+    <label>Vehicle Number: <input type="text" id="vehicleNumber" required /></label><br />
+    <label>Owner Name: <input type="text" id="ownerName" required /></label><br />
+    <label>Block No: <input type="text" id="blockNo" required /></label><br />
+    <label>House No: <input type="text" id="houseNo" required /></label><br />
+    <button type="submit">Generate QR Code</button>
+  </form>
+  <div id="qrCodeContainer"></div>
+  <script src="script.js"></script>
+</body>
+</html>

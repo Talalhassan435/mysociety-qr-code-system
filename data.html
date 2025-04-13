@@ -1,0 +1,27 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vehicle Data</title>
+</head>
+<body>
+  <h1>Vehicle Information</h1>
+  <div id="info"></div>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const vehicleNumber = params.get("vehicleNumber");
+    const ownerName = params.get("ownerName");
+    const blockNo = params.get("blockNo");
+    const houseNo = params.get("houseNo");
+
+    document.getElementById("info").innerHTML = `
+      <p><strong>Owner Name:</strong> ${ownerName}</p>
+      <p><strong>Vehicle Number:</strong> ${vehicleNumber}</p>
+      <p><strong>Block No:</strong> ${blockNo}</p>
+      <p><strong>House No:</strong> ${houseNo}</p>
+    `;
+  </script>
+</body>
+</html>
