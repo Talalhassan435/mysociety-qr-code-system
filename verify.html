@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Vehicle Verification</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    #result { margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <h1>Vehicle Verification</h1>
+  <input type="text" id="vehicleInput" placeholder="Enter Vehicle Number" />
+  <button onclick="verifyVehicle()">Verify</button>
+  <div id="result">Loading...</div>
+  
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const vehicleNumber = params.get('vehicle');
+    
+    // CSV URL: Ensure ke aapne Google Sheet ko publish kar diya ho CSV format mein
+    const sheetUrl = "https://opensheet.vercel.app/1KIAs3JzWKCBj-2RgW8oewd3QYdbC27JxKjgMuBvJb0s/Sheet1";
+    
+    fetch(sheetUrl)
+      .then(response => response.text())
+      .then(csvData => {
+        // Split CSV data into rows
+        const rows = csvData.split("\n");
+        // Assume first row is header
+        const headers = rows[0].split(",");
+        
+        // Find index of "Vehicle NO" header
+        const vehicleIndex = headers.findIndex(header => header.trim().toLowerCase() === "vehicle no");
+        
+        // Compare vehicle number (make sure to trim spaces & ignore case)
+        let recordFound = false;
+        for (let i = 1; i < rows.length; i++) {
+          const cols = rows[i].split(",");
+          if (cols[vehicleIndex] && cols[vehicleIndex].trim().toUpperCase() === vehicleNumber.trim().toUpperCase()) {
+            // Found matching record; show details (customize columns as needed)
+            document.getElementById("result").innerHTML = `
+              <p><strong>Owner:</strong> ${cols[headers.findIndex(h => h.trim().toLowerCase() === "owner name")]}</p>
+              <p><strong>Vehicle No:</strong> ${cols[vehicleIndex]}</p>
+              <p><strong>House No:</strong> ${cols[headers.findIndex(h => h.trim().toLowerCase() === "house no")]}</p>
+              <p><strong>Block No:</strong> ${cols[headers.findIndex(h => h.trim().toLowerCase() === "block no")]}</p>
+            `;
+            recordFound = true;
+            break;
+          }
+        }
+        
+        if (!recordFound) {
+          document.getElementById("result").innerText = "❌ Vehicle not found!";
+        }
+      })
+      .catch(error => {
+        document.getElementById("result").innerText = "⚠️ Error fetching data.";
+        console.error(error);
+      });
+    
+    // For manual testing using the input field, define function:
+    function verifyVehicle() {
+      const input = document.getElementById("vehicleInput").value;
+      window.location.href = "verify.html?vehicle=" + encodeURIComponent(input);
+    }
+  </script>
+</body>
+</html>
